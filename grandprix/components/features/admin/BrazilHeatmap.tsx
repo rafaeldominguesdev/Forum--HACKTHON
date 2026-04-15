@@ -18,12 +18,12 @@ import { cn } from "@/lib/utils";
 
 const geoUrl = "/brazil.json";
 
-// Cores Institucionais
+// Cores Institucionais Refinadas
 const STATUS_COLORS = {
-  STABLE: "#008542",
-  ATTENTION: "#f59e0b",
-  CRITICAL: "#ef4444",
-  EMPTY: "#f8fafc"
+  STABLE: "#059669",    // Esmeralda Petrobras (Suave)
+  ATTENTION: "#f59e0b",  // Amarelo Alerta
+  CRITICAL: "#ef4444",   // Vermelho Crítico
+  EMPTY: "#f1f5f9"       // Cinza de Fundo (Visível)
 };
 
 export function BrazilHeatmap() {
@@ -80,36 +80,42 @@ export function BrazilHeatmap() {
 
   return (
     <div className="w-full relative group">
-      {/* Informações Sobrepostas (Legenda Funcional) */}
-      <div className="absolute top-8 left-8 z-10 pointer-events-none">
-        <h3 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Visão Geográfica</h3>
-        <p className="text-xs font-bold text-[#008542] tracking-[0.2em] uppercase mt-1">Status em Tempo Real</p>
+      {/* Legenda Lateral Refinada (Visual Moderno) */}
+      <div className="absolute top-10 left-10 z-10 pointer-events-none space-y-6">
+        <div className="space-y-1">
+          <h3 className="text-3xl font-black text-slate-900 tracking-tighter uppercase">Mapa de Risco</h3>
+          <p className="text-[10px] font-black text-[#008542] tracking-[0.3em] uppercase opacity-70">Monitoramento Geográfico</p>
+        </div>
         
-        <div className="flex flex-col gap-3 mt-6 bg-white/90 backdrop-blur-xl p-5 rounded-3xl border border-slate-100 shadow-xl w-64 pointer-events-auto">
-          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Legenda de Risco</p>
+        <div className="bg-white/95 backdrop-blur-xl p-6 rounded-[32px] border border-slate-200/50 shadow-2xl w-[260px] pointer-events-auto space-y-6">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between group/item cursor-default">
+              <div className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#059669] shadow-[0_0_12px_rgba(5,150,105,0.4)]" />
+                <span className="text-xs font-black text-slate-700 uppercase tracking-tight">Estável</span>
+              </div>
+              <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">0-1 DEM.</span>
+            </div>
+
+            <div className="flex items-center justify-between group/item cursor-default">
+              <div className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_12px_rgba(245,158,11,0.4)]" />
+                <span className="text-xs font-black text-slate-700 uppercase tracking-tight">Atenção</span>
+              </div>
+              <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">2-9 DEM.</span>
+            </div>
+
+            <div className="flex items-center justify-between group/item cursor-default">
+              <div className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]" />
+                <span className="text-xs font-black text-slate-700 uppercase tracking-tight">Crítico</span>
+              </div>
+              <span className="text-[10px] font-bold text-slate-400 bg-slate-50 px-2 py-0.5 rounded-md">10+ DEM.</span>
+            </div>
+          </div>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-[#008542] shadow-[0_0_10px_rgba(0,133,66,0.3)]" />
-              <span className="text-xs font-bold text-slate-600">Estável</span>
-            </div>
-            <span className="text-[10px] font-black text-slate-400">0-1</span>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-amber-500 shadow-[0_0_10px_rgba(245,158,11,0.3)]" />
-              <span className="text-xs font-bold text-slate-600">Atenção</span>
-            </div>
-            <span className="text-[10px] font-black text-slate-400">2-9</span>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.3)]" />
-              <span className="text-xs font-bold text-slate-600">Crítico</span>
-            </div>
-            <span className="text-[10px] font-black text-slate-400">10+</span>
+          <div className="pt-4 border-t border-slate-100 italic text-[9px] text-slate-400 font-medium leading-relaxed">
+            Dados atualizados em tempo real com base no fluxo de triagem técnica.
           </div>
         </div>
       </div>
@@ -140,8 +146,8 @@ export function BrazilHeatmap() {
                       geography={geo}
                       fill={fillColor}
                       stroke="#ffffff"
-                      strokeWidth={1}
-                      className="transition-all duration-500 hover:opacity-80 cursor-default outline-none"
+                      strokeWidth={1.5}
+                      className="transition-all duration-500 hover:fill-slate-200 cursor-default outline-none"
                     />
                   );
                 })
