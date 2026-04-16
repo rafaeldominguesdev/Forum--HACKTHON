@@ -69,7 +69,7 @@ export function BrazilHeatmap() {
   const unitsArray = Object.values(unitStats);
 
   if (!mounted) return (
-    <div className="w-full bg-white rounded-[48px] border border-slate-200 p-8 shadow-sm h-[700px] flex items-center justify-center">
+    <div className="w-full bg-white rounded-[48px] border border-slate-200 p-8 shadow-sm h-[840px] flex items-center justify-center">
       <div className="text-center space-y-4">
         <div className="w-12 h-12 border-4 border-[#008542] border-t-transparent rounded-full animate-spin mx-auto" />
         <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Carregando Geointeligência...</p>
@@ -120,7 +120,7 @@ export function BrazilHeatmap() {
       </div>
 
       {/* Container do Mapa (Visão Ampla) */}
-      <div className="h-[730px] flex items-center justify-center p-8 bg-slate-50/20">
+      <div className="h-[840px] flex items-center justify-center p-8 bg-slate-50/20">
         <TooltipProvider>
           <ComposableMap
             projection="geoMercator"

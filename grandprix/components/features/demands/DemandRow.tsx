@@ -4,7 +4,7 @@ import { Demanda } from "@/types";
 import { DemandBadge } from "./DemandBadge";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { MessageSquare, User, Clock } from "lucide-react";
+import { MessageSquare, User, Clock, Sparkles, Target } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { BARREIRA_LABELS, TipoBarreira } from "@/lib/constants";
@@ -48,9 +48,27 @@ export function DemandRow({ demanda, isAdmin = false }: DemandRowProps) {
                 {demanda.categoria.nome}
               </span>
               <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md uppercase tracking-widest">
-                {(BARREIRA_LABELS as any)[demanda.tipoBarreira.slug]}
+                {(BARREIRA_LABELS as any)[demanda.tipoBarreira.slug] || demanda.tipoBarreira.nome}
               </span>
+              {demanda.iniciativaVinculada && (
+                <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md uppercase tracking-widest border border-slate-200 flex items-center gap-1">
+                  <Target className="w-3 h-3" /> Integração: {demanda.iniciativaVinculada.nome}
+                </span>
+              )}
             </div>
+
+            {isAdmin && demanda.aiAnalysis?.solucaoHistorica && (
+              <div className="mt-2 bg-amber-50/50 border border-amber-200/50 p-2 rounded-lg flex gap-2 items-start mt-2 w-fit">
+                 <Sparkles className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                 <div>
+                   <p className="text-[11px] font-black uppercase text-amber-700 tracking-widest leading-none">Recomendação IA (Solução Testada)</p>
+                   <p className="text-xs font-medium text-amber-900 mt-1">Baseado em: {demanda.aiAnalysis.solucaoHistorica.titulo}</p>
+                   {demanda.aiAnalysis.solucaoHistorica.norma && (
+                     <p className="text-[10px] text-amber-700 font-bold mt-1">Norma Aplicável: {demanda.aiAnalysis.solucaoHistorica.norma}</p>
+                   )}
+                 </div>
+              </div>
+            )}
           </div>
 
           <div className="flex items-center gap-3 text-xs font-medium text-slate-400">

@@ -14,7 +14,9 @@ import {
   AlertCircle,
   ChevronLeft,
   Paperclip,
-  ArrowRight
+  ArrowRight,
+  Sparkles,
+  CheckCircle2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -52,7 +54,6 @@ const barrierIcons = {
   [TipoBarreira.CULTURAL]: Globe2,
 };
 
-export function DemandForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -61,6 +62,60 @@ export function DemandForm() {
       unidade: "",
     },
   });
+
+  const descricao = form.watch("descricao");
+  
+  // Simulated AI Logic
+  const getAIAnalysis = () => {
+    if (descricao.length < 20) return null;
+    
+    const text = descricao.toLowerCase();
+    
+    if (text.includes("gestor") || text.includes("capacidade") || text.includes("infantiliz") || text.includes("capacitism")) {
+      return {
+        type: TipoBarreira.ATITUDINAL,
+        area: "Recursos Humanos / Diversidade",
+        confidence: 0.94,
+        insight: "O relato indica barreiras comportamentais/culturais. Mapeamento para NR-17 não se aplica. Sugerido acionar trilhas de capacitação."
+      };
+    }
+    
+    if (text.includes("sistema") || text.includes("nvda") || text.includes("software") || text.includes("app")) {
+      return {
+        type: TipoBarreira.TECNOLOGICA,
+        area: "TIC (Tecnologia da Informação)",
+        confidence: 0.98,
+        insight: "Há menção a ferramentas digitais. Padrão semelhante a 22 incidentes abertos no ERP neste mês. Possível Cluster."
+      };
+    }
+    
+    if (text.includes("rampa") || text.includes("cadeira") || text.includes("banheiro") || text.includes("degrau")) {
+      return {
+        type: TipoBarreira.ARQUITETONICA,
+        area: "Infraestrutura / Serviços Prediais",
+        confidence: 0.89,
+        insight: "Adequação física sinalizada. Referência sugerida: Norma ABNT NBR 9050."
+      };
+    }
+    
+    return {
+      type: TipoBarreira.ARQUITETONICA, // fallback
+      area: "Aguardando mais detalhes...",
+      confidence: 0.0,
+      insight: "Continue escrevendo para uma triagem mais precisa."
+    };
+  };
+
+  const aiState = getAIAnalysis();
+
+  // Auto-fill category simulation when AI is confident
+  React.useEffect(() => {
+    if (aiState && aiState.confidence > 0.8) {
+      if (form.getValues("tipoBarreira") !== aiState.type) {
+         form.setValue("tipoBarreira", aiState.type);
+      }
+    }
+  }, [aiState?.type, aiState?.confidence, form]);
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -141,6 +196,54 @@ export function DemandForm() {
             </div>
 
             <div className="space-y-6">
+              {/* Copiloto IA Card */}
+              <Card className="border-slate-200 shadow-sm overflow-hidden border-t-4 border-t-slate-800">
+                <CardHeader className="bg-slate-50/50 border-b border-slate-100 pb-4">
+                  <div className="flex items-center justify-between">
+                     <CardTitle className="text-xs font-bold uppercase tracking-widest text-slate-800 flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        Copiloto de Triagem
+                     </CardTitle>
+                     {aiState && aiState.confidence > 0 ? (
+                       <span className="bg-emerald-100 text-[#008542] text-[10px] font-black px-2 py-0.5 rounded-full flex items-center gap-1">
+                         <CheckCircle2 className="w-3 h-3" /> ATIVO
+                       </span>
+                     ) : (
+                       <span className="bg-slate-200 text-slate-500 text-[10px] font-black px-2 py-0.5 rounded-full animate-pulse">
+                         ANALISANDO...
+                       </span>
+                     )}
+                  </div>
+                </CardHeader>
+                <CardContent className="p-6 space-y-4">
+                  {!aiState ? (
+                    <div className="text-xs font-medium text-slate-400 text-center py-4">
+                      Comece a digitar o "Relato Detalhado" para a inteligência artificial categorizar e sugerir soluções proativamente.
+                    </div>
+                  ) : (
+                    <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                      <div className="space-y-1">
+                        <p className="text-[10px] uppercase tracking-widest font-black text-slate-400">Tipo de Barreira Prevista</p>
+                        <p className="text-sm font-bold text-slate-900">{BARREIRA_LABELS[aiState.type]}</p>
+                      </div>
+                      <div className="space-y-1">
+                        <p className="text-[10px] uppercase tracking-widest font-black text-slate-400">Setor Responsável Sugerido</p>
+                        <p className="text-sm font-bold text-slate-900">{aiState.area}</p>
+                      </div>
+                      {aiState.confidence > 0 && (
+                        <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1 mt-4">
+                          <p className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                            <Sparkles className="w-3 h-3 text-[#008542]" /> Insight do Contexto
+                          </p>
+                          <p className="text-[11px] text-slate-600 font-medium leading-relaxed">
+                            {aiState.insight}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
               <Card className="border-slate-200 shadow-sm overflow-hidden">
                 <CardHeader className="bg-slate-50/50 border-b border-slate-100">
                   <CardTitle className="text-sm font-bold uppercase tracking-widest text-slate-500">Categorização</CardTitle>

@@ -57,8 +57,8 @@ export default function UserDashboardPage() {
           <p className="text-sm font-medium text-slate-500">Acompanhe seus relatos e sugestões para um ambiente mais inclusivo.</p>
         </div>
         <Link href="/nova-demanda">
-          <Button className="h-12 px-8 bg-[#008542] hover:bg-[#006e36] text-white font-black uppercase tracking-[0.2em] text-[10px] shadow-lg shadow-[#008542]/20 gap-3">
-            <PlusCircle className="w-4 h-4" />
+          <Button className="h-11 px-6 bg-slate-900 hover:bg-slate-800 text-white font-bold uppercase tracking-widest text-[10px] rounded-full shadow-md gap-2 transition-all">
+            <PlusCircle className="w-4 h-4 text-[#008542]" />
             Novo Registro
           </Button>
         </Link>

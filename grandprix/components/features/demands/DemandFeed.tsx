@@ -2,6 +2,8 @@
 
 import { Demanda } from "@/types";
 import { DemandRow } from "./DemandRow";
+import { Button } from "@/components/ui/button";
+import { Network, Sparkles } from "lucide-react";
 
 interface DemandFeedProps {
   data: Demanda[];
@@ -27,6 +29,24 @@ export function DemandFeed({ data, isAdmin = false }: DemandFeedProps) {
 
   return (
     <div className="flex flex-col gap-4">
+      {isAdmin && data.length > 0 && (
+        <div className="bg-[#008542]/5 border-2 border-[#008542]/20 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="bg-[#008542] text-white p-2.5 rounded-xl shadow-sm">
+               <Network className="w-5 h-5" />
+            </div>
+            <div>
+               <h4 className="text-[13px] font-black tracking-widest uppercase text-[#008542]">Agrupamento Inteligente</h4>
+               <p className="text-xs text-[#008542]/80 mt-0.5 font-bold">A IA encontrou tickets convergentes neste núcleo.</p>
+            </div>
+          </div>
+          <Button className="bg-[#008542] hover:bg-[#006e36] text-white text-xs font-black uppercase tracking-widest px-6 shadow-md shadow-[#008542]/20">
+             <Sparkles className="w-4 h-4 mr-2" />
+             Criar Iniciativa Automática
+          </Button>
+        </div>
+      )}
+      
       {data.map((demanda) => (
         <DemandRow key={demanda.id} demanda={demanda} isAdmin={isAdmin} />
       ))}

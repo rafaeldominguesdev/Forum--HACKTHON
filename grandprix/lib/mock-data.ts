@@ -67,69 +67,101 @@ export const mockRespostas: Resposta[] = [
   },
 ];
 
-// Gerar demandas extras para simular o mapa de calor funcional
+// Gerar demandas extras simulando a triagem de IA
 const generateMockDemandas = (): Demanda[] => {
   const base: Demanda[] = [
     {
       id: '1',
-      titulo: 'Rampa de acesso ao Prédio B sem corrimão',
-      descricao: 'A rampa de acesso principal ao Bloco B está sem corrimão bilateral.',
+      titulo: 'Subestimação da minha capacidade analítica (Capacitismo)',
+      descricao: 'Meu gestor consistentemente repassa tarefas de alta complexidade para outros colegas, acreditando que por causa da minha deficiência visual não consigo entregar planilhas avançadas, mesmo eu usando leitor de tela proficientemente.',
       status: DemandaStatus.EM_ANDAMENTO,
       prioridade: 'ALTA',
-      categoria: { id: 'c1', nome: 'Infraestrutura' },
-      tipoBarreira: { id: 'b1', slug: TipoBarreira.ARQUITETONICA, nome: 'Arquitetônica' },
+      categoria: { id: 'c3', nome: 'Cultura e Liderança' },
+      tipoBarreira: { id: 'b3', slug: TipoBarreira.COMUNICACIONAL, nome: 'Atitudinal (Comportamental)' },
       unidade: 'EDISE - Rio de Janeiro',
       autor: mockUsers[0],
       respostas: mockRespostas,
-      votos: 12,
+      votos: 34,
       createdAt: '2024-04-01T10:00:00Z',
       updatedAt: '2024-04-03T14:30:00Z',
       coordinates: UNIT_LOCATIONS["EDISE - Rio de Janeiro"],
+      aiAnalysis: {
+        suggestedArea: 'Recursos Humanos / Diversidade',
+        confidence: 0.96,
+        isAttitudinal: true,
+        summary: 'Relato claro de capacitismo e subestimação por liderança.',
+        solucaoHistorica: {
+          titulo: 'Trilha Anti-Capacitismo Lideranças 2023',
+          norma: 'Política de Diversidade 4.1',
+          link: '#'
+        }
+      }
     },
     {
       id: '2',
-      titulo: 'Ponto Eletrônico Inacessível para Baixa Visão',
-      descricao: 'O software de registro de jornada não possui contraste adequado.',
-      status: DemandaStatus.EM_ANDAMENTO,
+      titulo: 'Sistema SAP Inacessível via NVDA',
+      descricao: 'Após a última atualização do ERP, os menus suspensos pararam de ser lidos pelo software NVDA, impossibilitando a aprovação de ordens de serviço por pessoas cegas.',
+      status: DemandaStatus.NOVO,
       prioridade: 'URGENTE',
-      categoria: { id: 'c2', nome: 'Digital' },
+      categoria: { id: 'c2', nome: 'Sistemas Digitais' },
       tipoBarreira: { id: 'b2', slug: TipoBarreira.TECNOLOGICA, nome: 'Tecnológica' },
       unidade: 'Refinaria REPLAN',
       autor: mockUsers[1],
       respostas: [],
-      votos: 28,
+      votos: 89,
       createdAt: '2024-04-05T08:15:00Z',
       updatedAt: '2024-04-05T08:15:00Z',
       coordinates: UNIT_LOCATIONS["Refinaria REPLAN"],
+      aiAnalysis: {
+        suggestedArea: 'TIC (Tecnologia da Informação)',
+        confidence: 0.99,
+        clusterId: 'CLUSTER-SAP-2024',
+        summary: 'Perda de compatibilidade ERP x Leitor de Tela',
+        solucaoHistorica: {
+          titulo: 'Adequação Portal Jurídico para NVDA',
+          norma: 'WCAG 2.1 AA / NR-17',
+          link: '#'
+        }
+      },
+      iniciativaVinculada: {
+        id: 'ini-sap-24',
+        nome: 'Acessibilidade ERP Nacional',
+        status: 'EM_PLANEJAMENTO'
+      }
     },
     {
       id: '3',
-      titulo: 'Ausência de Intérprete de Libras em Treinamentos',
-      descricao: 'Treinamentos de SMS sem suporte de intérprete.',
+      titulo: 'Ausência de Intérprete de Libras no Integra',
+      descricao: 'Os vídeos obrigatórios de integração de SMS continuam sendo divulgados sem tradução para Libras, limitando a compreensão de medidas de segurança fundamentais.',
       status: DemandaStatus.EM_ANDAMENTO,
       prioridade: 'ALTA',
-      categoria: { id: 'c3', nome: 'Comunicação' },
+      categoria: { id: 'c1', nome: 'Treinamentos' },
       tipoBarreira: { id: 'b3', slug: TipoBarreira.COMUNICACIONAL, nome: 'Comunicacional' },
       unidade: 'RLAM - Mataripe',
       autor: mockUsers[2],
       respostas: [],
-      votos: 5,
+      votos: 15,
       createdAt: '2024-04-10T09:00:00Z',
       updatedAt: '2024-04-10T09:00:00Z',
       coordinates: UNIT_LOCATIONS["RLAM - Mataripe"],
+      aiAnalysis: {
+        suggestedArea: 'Educação Corporativa / SMS',
+        confidence: 0.92,
+        summary: 'Falta de conteúdo em Libras em curso obrigatório.'
+      }
     },
   ];
 
-  // Injetar mais 12 demandas EM_ANDAMENTO no RJ para torná-lo CRÍTICO (10+)
+  // Injetar mais demandas para simular impacto (RJ)
   for (let i = 4; i <= 15; i++) {
     base.push({
       id: String(i),
-      titulo: `Demanda Técnica #${i} - Acessibilidade`,
-      descricao: 'Melhoria técnica necessária em unidade operacional.',
+      titulo: `Barreira Sistêmica #${i} em Software Interno`,
+      descricao: 'Problemas recorrentes de contraste e navegação por teclado em ferramenta administrativa.',
       status: DemandaStatus.EM_ANDAMENTO,
       prioridade: i % 2 === 0 ? 'MEDIA' : 'ALTA',
-      categoria: { id: 'c1', nome: 'Infraestrutura' },
-      tipoBarreira: { id: 'b1', slug: TipoBarreira.ARQUITETONICA, nome: 'Arquitetônica' },
+      categoria: { id: 'c2', nome: 'Sistemas Digitais' },
+      tipoBarreira: { id: 'b2', slug: TipoBarreira.TECNOLOGICA, nome: 'Tecnológica' },
       unidade: 'EDISE - Rio de Janeiro',
       autor: mockUsers[0],
       respostas: [],
@@ -137,19 +169,29 @@ const generateMockDemandas = (): Demanda[] => {
       createdAt: '2024-04-12T10:00:00Z',
       updatedAt: '2024-04-12T10:00:00Z',
       coordinates: UNIT_LOCATIONS["EDISE - Rio de Janeiro"],
+      aiAnalysis: {
+        suggestedArea: 'TIC',
+        confidence: 0.88,
+        clusterId: i % 3 === 0 ? 'CLUSTER-SAP-2024' : undefined,
+      },
+      iniciativaVinculada: i % 3 === 0 ? {
+        id: 'ini-sap-24',
+        nome: 'Acessibilidade ERP Nacional',
+        status: 'EM_PLANEJAMENTO'
+      } : undefined
     });
   }
 
-  // Injetar mais 4 demandas em SP para torná-lo ATENÇÃO (2-9)
+  // Injetar relatos de barreira atitudinal (SP)
   for (let i = 16; i <= 20; i++) {
     base.push({
       id: String(i),
-      titulo: `Ajuste SP #${i}`,
-      descricao: 'Ajuste de acessibilidade na refinaria.',
-      status: DemandaStatus.EM_ANDAMENTO,
+      titulo: `Comportamento Restritivo #${i}`,
+      descricao: 'Relato de infantilização e brincadeiras não apropriadas relacionadas à deficiência física.',
+      status: DemandaStatus.NOVO,
       prioridade: 'MEDIA',
-      categoria: { id: 'c2', nome: 'Digital' },
-      tipoBarreira: { id: 'b2', slug: TipoBarreira.TECNOLOGICA, nome: 'Tecnológica' },
+      categoria: { id: 'c3', nome: 'Cultura e Liderança' },
+      tipoBarreira: { id: 'b3', slug: TipoBarreira.COMUNICACIONAL, nome: 'Atitudinal (Comportamental)' },
       unidade: 'RPBC - Cubatão',
       autor: mockUsers[1],
       respostas: [],
@@ -157,6 +199,11 @@ const generateMockDemandas = (): Demanda[] => {
       createdAt: '2024-04-14T08:00:00Z',
       updatedAt: '2024-04-14T08:00:00Z',
       coordinates: UNIT_LOCATIONS["RPBC - Cubatão"],
+      aiAnalysis: {
+        suggestedArea: 'Recursos Humanos',
+        confidence: 0.95,
+        isAttitudinal: true,
+      }
     });
   }
 

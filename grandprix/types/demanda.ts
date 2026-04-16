@@ -21,6 +21,23 @@ export interface Demanda {
   createdAt: string;
   updatedAt: string;
   coordinates?: [number, number];
+  iniciativaVinculada?: {
+    id: string;
+    nome: string;
+    status: 'EM_PLANEJAMENTO' | 'EM_EXECUCAO' | 'CONCLUIDO';
+  };
+  aiAnalysis?: {
+    suggestedArea: string;
+    confidence: number;
+    clusterId?: string;
+    isAttitudinal?: boolean;
+    summary?: string;
+    solucaoHistorica?: {
+      titulo: string;
+      norma?: string;
+      link: string;
+    };
+  };
 }
 
 
