@@ -10,9 +10,22 @@ import {
   Users, 
   LayoutDashboard,
   MessageSquare,
-  Accessibility
+  Accessibility,
+  User,
+  LogOut,
+  Bell
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const sidebarItems = [
   {
@@ -66,18 +79,8 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-64 sidebar-bg h-screen fixed left-0 top-0 overflow-y-auto flex flex-col">
-      <div className="p-6 flex items-center gap-2">
-        <div className="bg-primary p-2 rounded-lg">
-          <Accessibility className="w-6 h-6 text-white" />
-        </div>
-        <div>
-          <h1 className="text-sm font-bold tracking-tight">Acesso Livre</h1>
-          <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Fórum Corporativo</p>
-        </div>
-      </div>
-
-      <nav className="flex-1 px-4 py-4">
+    <aside className="w-64 sidebar-bg h-[calc(100vh-64px)] fixed left-0 top-16 overflow-y-auto flex flex-col border-r border-slate-200">
+      <nav className="flex-1 px-4 py-6">
         {sidebarItems.map((section, idx) => (
           <div key={idx} className="mb-8 last:mb-0">
             <h2 className="px-3 mb-2 text-[10px] uppercase tracking-widest font-bold text-muted-foreground/70">
@@ -93,9 +96,9 @@ export function Sidebar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-all group",
+                      "flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group",
                       isActive 
-                        ? "bg-primary/10 text-primary" 
+                        ? "bg-primary/10 text-primary font-bold" 
                         : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                     )}
                   >
@@ -112,16 +115,46 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-slate-200 mt-auto bg-slate-100/50">
-        <div className="flex items-center gap-3 px-2 py-1">
-          <div className="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold text-xs">
-            RC
-          </div>
-          <div className="flex-1 overflow-hidden">
-            <p className="text-xs font-bold truncate">Rafael Caldeira</p>
-            <p className="text-[10px] text-muted-foreground truncate">Colaborador</p>
-          </div>
-        </div>
+      <div className="p-3 border-t border-slate-200 mt-auto bg-white/50">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant="ghost" 
+              className="w-full flex items-center gap-3 px-3 py-6 rounded-xl hover:bg-white hover:shadow-sm border border-transparent hover:border-slate-100 transition-all group justify-start"
+            >
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs shrink-0 group-hover:scale-105 transition-transform">
+                RC
+              </div>
+              <div className="flex flex-col items-start overflow-hidden text-left">
+                <p className="text-sm font-bold text-slate-900 leading-none truncate w-full">Rafael Caldeira</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1 truncate w-full">Gestor de UX</p>
+              </div>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" side="right" className="w-64 mb-4 rounded-2xl border-slate-200 shadow-xl p-2 animate-in slide-in-from-left-2 duration-200">
+            <DropdownMenuLabel className="px-3 py-2 text-xs font-black uppercase tracking-widest text-slate-400">Minha Conta</DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuGroup>
+              <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer focus:bg-slate-50 focus:text-slate-900 gap-3">
+                <User className="w-4 h-4 text-slate-400" />
+                <span className="font-semibold text-sm">Meu Perfil</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer focus:bg-slate-50 focus:text-slate-900 gap-3">
+                <Settings className="w-4 h-4 text-slate-400" />
+                <span className="font-semibold text-sm">Configurações</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer focus:bg-slate-50 focus:text-slate-900 gap-3">
+                <Bell className="w-4 h-4 text-slate-400" />
+                <span className="font-semibold text-sm">Notificações</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer focus:bg-red-50 focus:text-red-600 text-red-500 gap-3">
+              <LogOut className="w-4 h-4" />
+              <span className="font-black text-sm uppercase tracking-wider">Sair da Conta</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </aside>
   );
