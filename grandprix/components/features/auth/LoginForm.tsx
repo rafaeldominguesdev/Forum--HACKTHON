@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState, useRef, useCallback } from "react"
 import { useRouter } from "next/navigation"
-import { Mail, Lock } from "lucide-react"
+import { Mail, Lock, Eye, EyeOff } from "lucide-react"
 
 /* ── Componente de input com animação por letra ── */
 function AnimatedInput({
@@ -14,6 +14,7 @@ function AnimatedInput({
   required,
   icon,
   rightElement,
+  showValue = false,
 }: {
   type?: string
   placeholder: string
@@ -22,6 +23,7 @@ function AnimatedInput({
   required?: boolean
   icon: React.ReactNode
   rightElement?: React.ReactNode
+  showValue?: boolean
 }) {
   const inputRef = useRef<HTMLInputElement>(null)
   const [chars, setChars] = useState<{ ch: string; id: number }[]>([])
@@ -51,6 +53,9 @@ function AnimatedInput({
   )
 
   const isPassword = type === "password"
+  // mostra bullet quando é senha E showValue está false
+  const showBullet = isPassword && !showValue
+  const [focused, setFocused] = useState(false)
 
   return (
     <div className="ai-wrap" onClick={() => inputRef.current?.focus()}>
@@ -63,23 +68,25 @@ function AnimatedInput({
         {chars.map((c, i) =>
           i < value.length ? (
             <span key={c.id} className="ai-char">
-              {isPassword ? "•" : c.ch}
+              {showBullet ? "•" : c.ch}
             </span>
           ) : null
         )}
-        {/* Cursor piscante */}
-        <span className="ai-cursor" />
+        {/* Cursor só pisca quando focado */}
+        {focused && <span className="ai-cursor" />}
       </div>
 
       {/* Input real invisível para capturar digitar */}
       <input
         ref={inputRef}
-        type={isPassword ? "password" : type}
+        type={showBullet ? "password" : "text"}
         value={value}
         onChange={handleChange}
         required={required}
         className="ai-real-input"
         autoComplete="off"
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
       />
 
       {rightElement && <div className="ai-right">{rightElement}</div>}
@@ -92,6 +99,7 @@ function AnimatedInput({
 export function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
@@ -466,8 +474,20 @@ export function LoginForm() {
               placeholder="Password"
               value={password}
               onChange={setPassword}
+              showValue={showPassword}
               required
               icon={<Lock size={16} />}
+              rightElement={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{ background:"transparent", border:"none", cursor:"pointer", color:"rgba(255,198,50,0.6)", display:"flex", alignItems:"center", padding:"4px", transition:"color .2s" }}
+                  onMouseEnter={e => (e.currentTarget.style.color="#FFC632")}
+                  onMouseLeave={e => (e.currentTarget.style.color="rgba(255,198,50,0.6)")}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              }
             />
 
             <div className="bottom-row">
