@@ -7,7 +7,7 @@ import { ptBR } from "date-fns/locale";
 import { MessageSquare, User, Clock, Sparkles, Target } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { BARREIRA_LABELS, TipoBarreira } from "@/lib/constants";
+import { BARREIRA_LABELS } from "@/lib/constants";
 
 interface DemandRowProps {
   demanda: Demanda;
@@ -48,7 +48,7 @@ export function DemandRow({ demanda, isAdmin = false }: DemandRowProps) {
                 {demanda.categoria.nome}
               </span>
               <span className="text-xs font-bold text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md uppercase tracking-widest">
-                {(BARREIRA_LABELS as any)[demanda.tipoBarreira.slug] || demanda.tipoBarreira.nome}
+                {BARREIRA_LABELS[demanda.tipoBarreira.slug] || demanda.tipoBarreira.nome}
               </span>
               {demanda.iniciativaVinculada && (
                 <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2.5 py-1 rounded-md uppercase tracking-widest border border-slate-200 flex items-center gap-1">

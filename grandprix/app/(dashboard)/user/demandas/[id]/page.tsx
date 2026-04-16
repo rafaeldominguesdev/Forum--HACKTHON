@@ -24,11 +24,15 @@ export default function UserDemandDetailPage({ params }: DemandDetailPageProps) 
       try {
         setError(null);
         const res = await fetch(`/api/demandas/${id}`);
-        const payload = (await res.json().catch(() => null)) as any;
-        if (!res.ok) throw new Error(payload?.error ?? "Falha ao carregar demanda");
-        if (!cancelled) setDemanda((payload?.data ?? null) as Demanda | null);
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message ?? "Falha ao carregar demanda");
+        const payload: unknown = await res.json().catch(() => null);
+        const maybe = (payload && typeof payload === "object") ? (payload as Record<string, unknown>) : null;
+        const serverError = typeof maybe?.error === "string" ? maybe.error : undefined;
+        const data = (maybe && "data" in maybe) ? (maybe.data as Demanda | null) : null;
+        if (!res.ok) throw new Error(serverError ?? "Falha ao carregar demanda");
+        if (!cancelled) setDemanda(data);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "Falha ao carregar demanda";
+        if (!cancelled) setError(msg);
       }
     })();
     return () => {

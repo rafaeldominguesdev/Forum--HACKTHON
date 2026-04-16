@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import Link from "next/link";
 import { ChevronRight, MessageSquare, MapPin } from "lucide-react";
-import { BARREIRA_LABELS, TipoBarreira } from "@/lib/constants";
+import { BARREIRA_LABELS } from "@/lib/constants";
 
 interface DemandTableProps {
   data: Demanda[];
@@ -59,7 +59,7 @@ export function DemandTable({ data, isAdmin }: DemandTableProps) {
                 </TableCell>
                 <TableCell className="py-4">
                   <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded-md">
-                    {(BARREIRA_LABELS as any)[demanda.tipoBarreira.slug]}
+                    {BARREIRA_LABELS[demanda.tipoBarreira.slug]}
                   </span>
                 </TableCell>
                 {isAdmin && (

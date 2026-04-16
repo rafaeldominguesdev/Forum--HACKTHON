@@ -14,7 +14,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
 
 const geoUrl = "/brazil.json";
 
@@ -183,7 +182,7 @@ export function BrazilHeatmap() {
               const markerSize = Math.max(7, Math.min(14, 7 + count * 2));
 
               return (
-                <Marker key={name} coordinates={[coordinates[1], coordinates[0]] as any}>
+                <Marker key={name} coordinates={[coordinates[1], coordinates[0]] as [number, number]}>
                   <Tooltip>
                     <TooltipTrigger>
                       <g className="cursor-pointer group/marker">

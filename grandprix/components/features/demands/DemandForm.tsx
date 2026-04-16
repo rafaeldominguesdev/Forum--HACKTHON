@@ -138,13 +138,18 @@ export function DemandForm() {
         }),
       });
 
-      const payload = (await res.json().catch(() => null)) as any;
+      const payload: unknown = await res.json().catch(() => null);
+      const maybe = (payload && typeof payload === "object") ? (payload as Record<string, unknown>) : null;
+      const serverError = typeof maybe?.error === "string" ? maybe.error : undefined;
       if (!res.ok) {
-        setSubmitError(payload?.error ?? "Falha ao enviar o relato.");
+        setSubmitError(serverError ?? "Falha ao enviar o relato.");
         return;
       }
 
-      const id = payload?.data?.id as string | undefined;
+      const id =
+        maybe && typeof maybe.data === "object" && maybe.data && typeof (maybe.data as Record<string, unknown>).id === "string"
+          ? ((maybe.data as Record<string, unknown>).id as string)
+          : undefined;
       if (id) {
         router.push(`/user/demandas/${id}`);
       } else {
@@ -310,7 +315,7 @@ export function DemandForm() {
                 <CardContent className="p-6 space-y-4">
                   {!aiState ? (
                     <div className="text-xs font-medium text-slate-400 text-center py-4">
-                      Comece a digitar o "Relato Detalhado" para a inteligência artificial categorizar e sugerir soluções proativamente.
+                      Comece a digitar o Relato Detalhado para a inteligência artificial categorizar e sugerir soluções proativamente.
                     </div>
                   ) : (
                     <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">

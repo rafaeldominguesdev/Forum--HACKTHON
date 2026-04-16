@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { 
   LayoutDashboard, 
   FileText, 
@@ -57,6 +57,7 @@ export function Sidebar() {
   const { isSidebarCollapsed, setIsSidebarCollapsed } = useLayout();
   const isCollapsed = isSidebarCollapsed;
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <aside 
@@ -127,7 +128,9 @@ export function Sidebar() {
               )}
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" side="right" className="w-64 mb-4 rounded-2xl border-slate-200 shadow-xl p-2 animate-in slide-in-from-left-2 duration-200">
-            <DropdownMenuLabel className="px-3 py-2 text-xs font-black uppercase tracking-widest text-slate-400">Minha Conta</DropdownMenuLabel>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="px-3 py-2 text-xs font-black uppercase tracking-widest text-slate-400">Minha Conta</DropdownMenuLabel>
+            </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-slate-100" />
             <DropdownMenuGroup>
               <Link href="/perfil">
@@ -148,7 +151,10 @@ export function Sidebar() {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator className="bg-slate-100" />
-            <DropdownMenuItem className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer focus:bg-red-50 focus:text-red-600 text-red-500 gap-3">
+            <DropdownMenuItem 
+              onClick={() => router.push('/login')}
+              className="flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer focus:bg-red-50 focus:text-red-600 text-red-500 gap-3"
+            >
               <LogOut className="w-4 h-4" />
               <span className="font-black text-sm uppercase tracking-wider">Sair da Conta</span>
             </DropdownMenuItem>

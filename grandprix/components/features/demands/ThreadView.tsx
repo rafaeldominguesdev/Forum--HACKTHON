@@ -1,7 +1,7 @@
 "use client";
 
 import { Demanda } from "@/types/demanda";
-import { STATUS_CONFIG, BARREIRA_LABELS, TipoBarreira } from "@/lib/constants";
+import { STATUS_CONFIG, BARREIRA_LABELS } from "@/lib/constants";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { 
@@ -39,7 +39,7 @@ export function ThreadView({ demanda }: ThreadViewProps) {
                  {status.label}
                </Badge>
                <span className="text-[10px] font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full uppercase tracking-widest">
-                 {(BARREIRA_LABELS as any)[demanda.tipoBarreira.slug]}
+                 {BARREIRA_LABELS[demanda.tipoBarreira.slug]}
                </span>
             </div>
             <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -72,7 +72,7 @@ export function ThreadView({ demanda }: ThreadViewProps) {
           </div>
 
           <div className="text-slate-600 text-lg leading-relaxed max-w-4xl bg-slate-50/50 p-6 rounded-xl border border-slate-100 italic">
-            "{demanda.descricao}"
+            {demanda.descricao}
           </div>
         </section>
       </Card>

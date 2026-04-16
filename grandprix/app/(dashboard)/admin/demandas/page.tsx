@@ -16,11 +16,15 @@ export default function AdminDemandListPage() {
       try {
         setError(null);
         const res = await fetch("/api/demandas");
-        const payload = (await res.json().catch(() => null)) as any;
-        if (!res.ok) throw new Error(payload?.error ?? "Falha ao carregar demandas");
-        if (!cancelled) setDemandas((payload?.data ?? []) as Demanda[]);
-      } catch (e: any) {
-        if (!cancelled) setError(e?.message ?? "Falha ao carregar demandas");
+        const payload: unknown = await res.json().catch(() => null);
+        const maybe = (payload && typeof payload === "object") ? (payload as Record<string, unknown>) : null;
+        const serverError = typeof maybe?.error === "string" ? maybe.error : undefined;
+        const data = Array.isArray(maybe?.data) ? (maybe?.data as Demanda[]) : [];
+        if (!res.ok) throw new Error(serverError ?? "Falha ao carregar demandas");
+        if (!cancelled) setDemandas(data);
+      } catch (e: unknown) {
+        const msg = e instanceof Error ? e.message : "Falha ao carregar demandas";
+        if (!cancelled) setError(msg);
       }
     })();
     return () => {
