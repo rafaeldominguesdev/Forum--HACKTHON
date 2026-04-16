@@ -33,22 +33,19 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-10">
-      {/* Header restrito ao espaço do Mapa para perfeitamente alinhar os 2 botões de ação */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        <div className="xl:col-span-2 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2">
-          <div className="space-y-1">
-            <h1 className="title-font text-4xl font-black tracking-tight text-slate-900">Hub de Inteligência</h1>
-            <p className="title-font text-sm font-medium text-slate-500">Monitoramento analítico e triagem inteligente de barreiras à inclusão.</p>
-          </div>
-          <div className="flex gap-3">
-            <Button variant="outline" className="h-12 px-6 font-bold uppercase tracking-widest text-[10px] border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-all rounded-full">
-              <Download className="w-4 h-4 mr-2" />
-              Exportar
-            </Button>
-            <Button className="h-12 px-8 bg-[#008542] hover:bg-[#006e36] text-white font-bold uppercase tracking-widest text-[10px] shadow-md rounded-full transition-all">
-              Ações em Lote
-            </Button>
-          </div>
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 w-full">
+        <div className="space-y-1">
+          <h1 className="title-font text-4xl font-black tracking-tight text-slate-900">Hub de Inteligência</h1>
+          <p className="title-font text-sm font-medium text-slate-500">Monitoramento analítico e triagem inteligente de barreiras à inclusão.</p>
+        </div>
+        <div className="flex gap-3 md:ml-auto md:justify-end">
+          <Button variant="outline" className="h-12 px-6 font-bold uppercase tracking-widest text-[10px] border-slate-200 bg-white hover:bg-slate-50 text-slate-600 transition-all rounded-full">
+            <Download className="w-4 h-4 mr-2" />
+            Exportar
+          </Button>
+          <Button className="h-12 px-8 bg-[#008542] hover:bg-[#006e36] text-white font-bold uppercase tracking-widest text-[10px] shadow-md rounded-full transition-all">
+            Ações em Lote
+          </Button>
         </div>
       </div>
 
