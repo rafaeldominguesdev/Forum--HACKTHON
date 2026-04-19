@@ -1,4 +1,4 @@
-# AcessívelBR Hub 🚀
+# Acessível Hub 🚀
 **Projeto Desenvolvido para o Grand Prix SENAI de Inovação - Desafio Petrobras**
 
 ## 🎯 O Desafio
@@ -8,7 +8,7 @@ A Petrobras identificou que, embora existam diversas iniciativas de acessibilida
 *   Baixa visibilidade de problemas recorrentes e causas raiz.
 
 ## 💡 Nossa Solução: O Hub de Centralização Inteligente
-O **AcessívelBR Hub** não tenta substituir os programas que já funcionam na Petrobras; ele atua como o **conector central** de todos eles, orchestrando as iniciativas existentes através de Inteligência Artificial.
+O **Acessível Hub** não tenta substituir os programas que já funcionam na Petrobras; ele atua como o **conector central** de todos eles, orchestrando as iniciativas existentes através de Inteligência Artificial.
 
 ### Diferenciais Técnicos:
 *   **Centralização Real:** Unifica os dados de RH, TI, Saúde e Engenharia em uma plataforma única de comando.

@@ -1,4 +1,4 @@
-# Lean Canvas: AcessívelBR Hub (Desafio Petrobras/SENAI)
+# Lean Canvas: Acessível Hub (Desafio Petrobras/SENAI)
 
 ---
 

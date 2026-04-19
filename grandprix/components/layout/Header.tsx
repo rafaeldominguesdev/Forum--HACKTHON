@@ -24,7 +24,10 @@ export function Header() {
           <img src="/img/petrobrasLogo.svg" alt="Petrobras" className="h-8 w-auto shrink-0" />
           {!isSidebarCollapsed && (
             <div className="flex flex-col mt-0.5 overflow-hidden">
-              <span className="text-sm font-black text-slate-900 leading-none tracking-tight">ACESSÍVEL</span>
+              <div className="flex items-center gap-1.5">
+                <span className="text-base font-black text-slate-900 leading-none tracking-tighter">ACESSÍVEL</span>
+                <span className="text-base font-black text-[#008542] leading-none tracking-tighter">HUB</span>
+              </div>
               <span className="text-[10px] font-black text-[#008542] uppercase tracking-widest mt-0.5">Petrobras</span>
             </div>
           )}

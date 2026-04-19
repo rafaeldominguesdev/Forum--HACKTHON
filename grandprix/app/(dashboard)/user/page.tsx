@@ -82,7 +82,9 @@ export default function UserDashboardPage() {
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div className="space-y-1">
-          <h1 className="title-font text-4xl font-black tracking-tight text-slate-900">Portal de Acessibilidade</h1>
+          <h1 className="title-font text-5xl font-black tracking-tighter text-slate-900">
+            Acessível <span className="text-[#008542] drop-shadow-[0_0_15px_rgba(0,133,66,0.1)]">Hub</span>
+          </h1>
           <p className="title-font text-sm font-medium text-slate-500">Acompanhe seus relatos e sugestões para um ambiente mais inclusivo.</p>
         </div>
         <Link href="/user/nova-demanda">

@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Fórum de Acessibilidade | Petrobras",
+  title: "Acessível Hub | Petrobras",
   description: "Plataforma corporativa para registro e acompanhamento de demandas de acessibilidade e inclusão.",
 };
 

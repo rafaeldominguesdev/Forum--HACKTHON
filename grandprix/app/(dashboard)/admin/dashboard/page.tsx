@@ -35,7 +35,9 @@ export default function AdminDashboardPage() {
     <div className="space-y-10">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-2 w-full">
         <div className="space-y-1">
-          <h1 className="title-font text-4xl font-black tracking-tight text-slate-900">Hub de Inteligência</h1>
+          <h1 className="title-font text-5xl font-black tracking-tighter text-slate-900">
+            Acessível <span className="text-[#008542] drop-shadow-[0_0_15px_rgba(0,133,66,0.1)]">Hub</span>
+          </h1>
           <p className="title-font text-sm font-medium text-slate-500">Monitoramento analítico e triagem inteligente de barreiras à inclusão.</p>
         </div>
         <div className="flex gap-3 md:ml-auto md:justify-end">
@@ -154,7 +156,12 @@ export default function AdminDashboardPage() {
             </Button>
           </div>
         </div>
-        <DemandFeed data={mockDemandas.slice(0, 8)} isAdmin />
+        {(() => {
+          const firstMemory = mockDemandas.find(d => !!d.aiAnalysis?.operacionalMemory);
+          const others = mockDemandas.filter(d => d.id !== firstMemory?.id);
+          const pinnedData = firstMemory ? [firstMemory, ...others.slice(0, 7)] : mockDemandas.slice(0, 8);
+          return <DemandFeed data={pinnedData} isAdmin />;
+        })()}
       </div>
     </div>
   );

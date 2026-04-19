@@ -8,6 +8,7 @@ import { MessageSquare, User, Clock, Sparkles, Target } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { BARREIRA_LABELS } from "@/lib/constants";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 
 interface DemandRowProps {
@@ -76,15 +77,40 @@ export function DemandRow({ demanda, isAdmin = false }: DemandRowProps) {
             </div>
 
             {isAdmin && demanda.aiAnalysis?.solucaoHistorica && (
-              <div className="mt-2 bg-[#FFD100]/15 border border-[#FFD100]/35 p-2 rounded-lg flex gap-2 items-start w-fit">
-                <Sparkles className="w-4 h-4 text-[#FFD100] shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-[11px] font-black uppercase text-[#003D29] tracking-widest leading-none">Recomendação (Solução Testada)</p>
-                  <p className="text-xs font-medium text-slate-900 mt-1">Baseado em: {demanda.aiAnalysis.solucaoHistorica.titulo}</p>
-                  {demanda.aiAnalysis.solucaoHistorica.norma && (
-                    <p className="text-[10px] text-[#003D29] font-bold mt-1">Norma Aplicável: {demanda.aiAnalysis.solucaoHistorica.norma}</p>
-                  )}
+              <div className="mt-2 space-y-2">
+                <div className="bg-[#FFD100]/15 border border-[#FFD100]/35 p-3 rounded-xl flex gap-3 items-start w-fit group/memory relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/memory:translate-x-full transition-transform duration-1000 ease-in-out" />
+                  <Sparkles className="w-4 h-4 text-[#FFD100] shrink-0 mt-0.5" />
+                  <div>
+                    <p className="text-[10px] font-black uppercase text-[#003D29] tracking-widest leading-none flex items-center gap-1.5">
+                      Recomendação da IA
+                      {demanda.aiAnalysis.operacionalMemory && (
+                        <span className="bg-[#003D29] text-[#FFD100] px-1.5 py-0.5 rounded text-[8px] animate-pulse">Memória Operacional</span>
+                      )}
+                    </p>
+                    <p className="text-xs font-bold text-slate-900 mt-1.5">{demanda.aiAnalysis.solucaoHistorica.titulo}</p>
+                    {demanda.aiAnalysis.solucaoHistorica.norma && (
+                      <p className="text-[10px] text-[#003D29]/70 font-bold mt-1">Norma: {demanda.aiAnalysis.solucaoHistorica.norma}</p>
+                    )}
+                  </div>
                 </div>
+
+                {demanda.aiAnalysis.operacionalMemory && (
+                  <motion.div 
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="bg-primary/5 border border-primary/20 p-4 rounded-xl relative group/quote"
+                  >
+                    <div className="absolute -left-1 top-4 w-2 h-2 bg-primary rotate-45" />
+                    <p className="text-xs text-slate-700 leading-relaxed font-medium italic">
+                      "{demanda.aiAnalysis.operacionalMemory.quote}"
+                    </p>
+                    <div className="mt-2 flex items-center gap-2">
+                      <div className="h-4 w-[2px] bg-primary/30" />
+                      <span className="text-[10px] font-black uppercase tracking-wider text-primary">Matching: {demanda.aiAnalysis.operacionalMemory.sourceLocation}</span>
+                    </div>
+                  </motion.div>
+                )}
               </div>
             )}
           </div>

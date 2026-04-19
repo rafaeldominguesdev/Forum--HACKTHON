@@ -62,9 +62,16 @@ function coordsFromUnidade(unidade?: string): [number, number] | undefined {
 }
 
 export async function listDemandas(input?: { authorId?: string }): Promise<Demanda[]> {
-  const all = await readAll();
+  // Para o pitch, priorizamos os dados mockados atualizados
+  const all = [...mockDemandas];
   const filtered = input?.authorId ? all.filter((d) => d.autor?.id === input.authorId) : all;
-  return filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  
+  // Garantir que a demanda de Memória Operacional (Sergipe) fique SEMPRE no topo para o pitch
+  const memoryTargets = filtered.filter(d => !!d.aiAnalysis?.operacionalMemory);
+  const others = filtered.filter(d => !d.aiAnalysis?.operacionalMemory)
+    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    
+  return [...memoryTargets, ...others];
 }
 
 export async function getDemandaById(id: string): Promise<Demanda | null> {

@@ -1,4 +1,4 @@
-# AcessívelBR Hub 🚀
+# Acessível Hub 🚀
 **Desenvolvedor e Líder de Projeto:** [Rafael Domingues](https://github.com/rafaeldominguesdev)
 
 Este projeto foi desenvolvido como solução para o **Grand Prix SENAI de Inovação**, focado no desafio proposto pela **Petrobras** sobre a descentralização das ações de acessibilidade interna.

@@ -452,8 +452,8 @@ export function LoginForm() {
                 <circle cx="12" cy="7" r="4"/>
               </svg>
             </div>
-            <h1 className="login-title">Bem-vindo de volta</h1>
-            <p className="login-subtitle">Faça login para acessar o AcessívelBR Hub</p>
+            <h1 className="login-title text-[#008542]">Acessível Hub</h1>
+            <p className="login-subtitle">Faça login para acessar o <span className="font-bold text-[#008542]">Acessível Hub</span></p>
           </div>
 
           {/* Erro */}

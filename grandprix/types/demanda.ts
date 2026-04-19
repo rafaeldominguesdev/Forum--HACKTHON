@@ -37,10 +37,14 @@ export interface Demanda {
       norma?: string;
       link: string;
     };
+    operacionalMemory?: {
+      sourceId: string;
+      sourceTitle: string;
+      sourceLocation: string;
+      quote: string;
+    };
   };
 }
-
-
 
 export interface CreateDemandaInput {
   titulo: string;

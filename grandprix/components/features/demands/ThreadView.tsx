@@ -1,5 +1,3 @@
-"use client";
-
 import { Demanda } from "@/types/demanda";
 import { STATUS_CONFIG, BARREIRA_LABELS } from "@/lib/constants";
 import { format } from "date-fns";
@@ -14,12 +12,15 @@ import {
   Accessibility,
   CornerDownRight,
   User,
-  History
+  History,
+  Sparkles,
+  Target
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { motion } from "framer-motion";
 
 interface ThreadViewProps {
   demanda: Demanda;
@@ -74,6 +75,74 @@ export function ThreadView({ demanda }: ThreadViewProps) {
           <div className="text-slate-600 text-lg leading-relaxed max-w-4xl bg-slate-50/50 p-6 rounded-xl border border-slate-100 italic">
             {demanda.descricao}
           </div>
+
+          {/* AI Insights & Operational Memory Section */}
+          {demanda.aiAnalysis?.solucaoHistorica && (
+            <div className="mt-8 space-y-6 pt-6 border-t border-slate-100">
+              <div className="bg-[#FFD100]/15 border border-[#FFD100]/35 p-6 rounded-[32px] flex gap-5 items-start group/memory relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover/memory:translate-x-full transition-transform duration-1000 ease-in-out" />
+                <div className="bg-[#FFD100] p-3 rounded-2xl shadow-sm rotate-3 group-hover/memory:rotate-0 transition-transform">
+                  <Sparkles className="w-6 h-6 text-[#003D29]" />
+                </div>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3">
+                    <p className="text-xs font-black uppercase text-[#003D29] tracking-[0.2em] leading-none">
+                      Recomendação Inteligente da IA
+                    </p>
+                    {demanda.aiAnalysis.operacionalMemory && (
+                      <span className="bg-[#003D29] text-[#FFD100] px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider animate-pulse">
+                        Memória Operacional Ativada
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-black text-[#003D29] leading-tight group-hover/memory:translate-x-1 transition-transform">
+                    {demanda.aiAnalysis.solucaoHistorica.titulo}
+                  </h3>
+                  {demanda.aiAnalysis.solucaoHistorica.norma && (
+                    <div className="flex items-center gap-2 text-xs font-bold text-[#003D29]/70">
+                      <ShieldCheck className="w-3.5 h-3.5" />
+                      Normatização: {demanda.aiAnalysis.solucaoHistorica.norma}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {demanda.aiAnalysis.operacionalMemory && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-primary/5 border-2 border-primary/20 p-8 rounded-[40px] relative group/quote bg-gradient-to-br from-primary/5 to-transparent"
+                >
+                  <div className="absolute -top-4 left-10 bg-primary text-white px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg">
+                    Coração do Projeto
+                  </div>
+                  
+                  <blockquote className="text-xl text-slate-800 leading-relaxed font-bold italic relative">
+                    <span className="text-6xl text-primary/20 absolute -top-8 -left-2 font-serif opacity-50">“</span>
+                    {demanda.aiAnalysis.operacionalMemory.quote}
+                    <span className="text-6xl text-primary/20 absolute -bottom-12 right-0 font-serif opacity-50">”</span>
+                  </blockquote>
+                  
+                  <div className="mt-8 pt-6 border-t border-primary/10 flex flex-wrap items-center gap-6">
+                    <div className="flex items-center gap-3">
+                      <Target className="w-5 h-5 text-primary opacity-60" />
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Origem da Inteligência</span>
+                        <span className="text-sm font-bold text-primary">{demanda.aiAnalysis.operacionalMemory.sourceLocation}</span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <History className="w-5 h-5 text-primary opacity-60" />
+                      <div className="flex flex-col">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Status da Fonte</span>
+                        <span className="text-sm font-bold text-emerald-600">SOLUÇÃO COMPROVADA</span>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          )}
         </section>
       </Card>
 
