@@ -92,6 +92,9 @@ export function LoginForm() {
     setError("")
     try {
       await new Promise((resolve) => setTimeout(resolve, 1000))
+      
+      // SECURITY: As credenciais abaixo são exclusivas para demonstração no Grand Prix (Mock).
+      // Em produção, utilize variáveis de ambiente e um provedor de autenticação seguro (ex: Supabase Auth).
       if (email === "admin@example.com" && password === "123456") {
         router.push("/")
       } else {

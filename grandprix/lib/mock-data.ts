@@ -28,6 +28,7 @@ export const UNIT_TO_STATE: Record<string, string> = {
   "Polo de Exploração Roraima": "RR",
   "Terminal de São Francisco do Sul": "SC",
   "Refinaria de Paulínia (REPLAN)": "SP",
+  "Sede Administrativa São Paulo": "SP",
   "Unidade de Processamento Carmópolis": "SE",
   "Base de Palmas": "TO",
 };
@@ -58,6 +59,7 @@ const UNIT_LOCATIONS: Record<string, [number, number]> = {
   "Polo de Exploração Roraima": [2.8235, -60.6758],
   "Terminal de São Francisco do Sul": [-26.2425, -48.6369],
   "Refinaria de Paulínia (REPLAN)": [-22.7610, -47.1539],
+  "Sede Administrativa São Paulo": [-23.5505, -46.6333],
   "Unidade de Processamento Carmópolis": [-10.6486, -36.9856],
   "Base de Palmas": [-10.1500, -48.3333],
 };
@@ -112,8 +114,8 @@ export const mockRespostas: Resposta[] = [
     autor: mockUsers[2],
     isAdminResponse: true,
     demandaId: 'rj-1',
-    createdAt: new Date('2024-04-02'),
-    updatedAt: new Date('2024-04-02'),
+    createdAt: new Date('2026-04-02'),
+    updatedAt: new Date('2026-04-02'),
   },
 ];
 
@@ -128,7 +130,7 @@ const generateMockDemandas = (): Demanda[] => {
       status: DemandaStatus.NOVA,
       authorIndex: 0, // Ana Paula Souza
       isMemoryTarget: true,
-      fixedDate: new Date('2022-04-16T10:00:00Z') // "há cerca de 2 anos"
+      fixedDate: new Date('2024-04-16T10:00:00Z') // "há exatamente 2 anos" (Simulando em 2026)
     },
     // SAP - SEGUNDA POSIÇÃO
     {
@@ -139,9 +141,9 @@ const generateMockDemandas = (): Demanda[] => {
       categoryName: "SISTEMAS DIGITAIS",
       integration: "ACESSIBILIDADE ERP NACIONAL",
       authorIndex: 1, // Carlos Eduardo Lima
-      fixedDate: new Date('2024-04-16T21:40:00Z'),
+      fixedDate: new Date('2026-04-15T21:40:00Z'),
       customAI: {
-        titulo: "Adequação Portal Jurídico para NVDA",
+        titulo: "Adequação Módulo SAP para NVDA",
         norma: "WCAG 2.1 AA / NR-17"
       }
     },
@@ -153,9 +155,9 @@ const generateMockDemandas = (): Demanda[] => {
       status: DemandaStatus.EM_ANDAMENTO,
       categoryName: "CULTURA E LIDERANÇA",
       authorIndex: 0, // Ana Paula Souza
-      fixedDate: new Date('2024-04-16T21:35:00Z'),
+      fixedDate: new Date('2026-04-18T21:35:00Z'),
       customAI: {
-        titulo: "Trilha Anti-Capacitismo Lideranças 2023",
+        titulo: "Trilha Anti-Capacitismo para Lideranças",
         norma: "Política de Diversidade 4.1"
       }
     },
@@ -165,55 +167,42 @@ const generateMockDemandas = (): Demanda[] => {
       title: "Desnível Crítico no Calçamento Externo", 
       desc: "O calçamento de pedras portuguesas na entrada principal apresenta desníveis que impossibilitam o acesso autônomo de cadeirantes.",
       status: DemandaStatus.RESOLVIDA,
-      fixedDate: new Date('2024-04-15T15:00:00Z')
+      fixedDate: new Date('2026-04-10T15:00:00Z')
     },
 
-    // RIO DE JANEIRO (OUTRAS)
-    ...Array.from({ length: 17 }).map((_, i) => ({
-      st: "RJ", unit: "Sede Rio de Janeiro (EDISE)", type: i % 4 === 0 ? TipoBarreira.ARQUITETONICA : TipoBarreira.COMUNICACIONAL,
-      title: i % 4 === 0 ? "Piso Irregular no Estacionamento" : `Inconsistência RJ #${i + 2}`,
-      desc: i % 4 === 0 ? "Área de embarque e desembarque com fissuras no asfalto." : "Barreira identificada durante auditoria de acessibilidade na sede administrativa.",
-      status: DemandaStatus.EM_ANDAMENTO
-    })),
-
-    // SÃO PAULO (CRÍTICO - 12 Demandas)
-    ...Array.from({ length: 12 }).map((_, i) => ({
-      st: "SP", unit: "Refinaria de Paulínia (REPLAN)", type: i % 3 === 0 ? TipoBarreira.TECNOLOGICA : TipoBarreira.ARQUITETONICA,
-      title: i === 0 ? "Totens de Autoatendimento sem Áudio" : (i === 1 ? "Catracas com Altura Inadequada" : `Ajuste SP #${i + 1}`),
-      desc: i === 0 ? "Os novos totens de segurança na entrada não possuem saída de áudio para orientação de pessoas cegas." : "Ajuste técnico necessário para garantir acessibilidade plena.",
-      status: DemandaStatus.NOVA
-    })),
-
-    // BAHIA (ATENÇÃO - 7 Demandas)
-    ...Array.from({ length: 7 }).map((_, i) => ({
-      st: "BA", unit: "Terminal de Madre de Deus", type: TipoBarreira.ATITUDINAL,
-      title: i === 0 ? "Barreiras Comportamentais em Reuniões" : `Treinamento BA #${i + 1}`,
-      desc: i === 0 ? "Relato de comentários capacitistas recorrentes em reuniões de DDR." : "Demanda de sensibilização e treinamento atitudinal.",
-      status: DemandaStatus.NOVA
-    })),
-
-    // PARANÁ (ATENÇÃO - 5 Demandas)
-    ...Array.from({ length: 5 }).map((_, i) => ({
-      st: "PR", unit: "Refinaria Presidente Getúlio Vargas (REPAR)", type: TipoBarreira.TECNOLOGICA,
-      title: i === 0 ? "Exclusão em Treinamento de Campo" : `Ajuste PR #${i + 1}`,
-      desc: i === 0 ? "Funcionário PCD relatou ter sido 'poupado' de treinamento técnico crucial." : "Incompatibilidade de sistema reportada.",
-      status: DemandaStatus.EM_ANALISE
-    })),
-
-    // PERNAMBUCO (ATENÇÃO - 4 Demandas)
-    ...Array.from({ length: 4 }).map((_, i) => ({
-      st: "PE", unit: "Refinaria Abreu e Lima (RNEST)", type: TipoBarreira.ARQUITETONICA,
-      title: i === 0 ? "Banheiro Adaptado Trancado" : `Adequação PE #${i + 1}`,
-      desc: i === 0 ? "O único banheiro adaptado do bloco B vive trancado." : "Melhoria na sinalização tátil.",
-      status: DemandaStatus.EM_ANDAMENTO
-    })),
-
-    // ESTADOS ESTÁVEIS (1 Demanda cada)
+    // ABRANGÊNCIA NACIONAL (Preenchendo os 27 estados)
+    { st: "AC", unit: "Polo Industrial de Rio Branco", type: TipoBarreira.ARQUITETONICA, title: "Acesso Difícil no Pátio Interno", desc: "Área de circulação com brita solta impede movimentação de cadeiras de rodas.", status: DemandaStatus.NOVA },
+    { st: "AL", unit: "Terminal de Maceió", type: TipoBarreira.TECNOLOGICA, title: "Falta de Sinalização Sonora", desc: "Painéis de embarque não possuem feedback em áudio para deficientes visuais.", status: DemandaStatus.EM_ANALISE },
+    { st: "AP", unit: "Base Operacional Amapá", type: TipoBarreira.ATITUDINAL, title: "Obstrução de Rampa por Materiais", desc: "Descarte recorrente de materiais de obra em frente à única rampa acessível do bloco C.", status: DemandaStatus.NOVA },
     { st: "AM", unit: "Refinaria de Manaus (REMAN)", type: TipoBarreira.TRANSPORTE, title: "Dificuldade em Transporte Fluvial", desc: "As embarcações de transporte não possuem rampa ou elevador.", status: DemandaStatus.NOVA },
+    { st: "BA", unit: "Terminal de Madre de Deus", type: TipoBarreira.ATITUDINAL, title: "Comentários Capacitistas em Reuniões", desc: "Relato de piadas e comentários depreciativos sobre a produtividade de PCDs.", status: DemandaStatus.EM_ANDAMENTO },
     { st: "CE", unit: "Lubrificantes do Nordeste (LUBNOR)", type: TipoBarreira.ARQUITETONICA, title: "Rampa com Inclinação Excessiva", desc: "A rampa de acesso ao refeitório está fora das normas da NBR 9050.", status: DemandaStatus.RESOLVIDA },
-    { st: "RN", unit: "Polo Ativo de Mossoró", type: TipoBarreira.TECNOLOGICA, title: "Rádios sem Feedback Vibratório", desc: "Rádios de campo sem alerta vibratório.", status: DemandaStatus.NOVA },
-    { st: "ES", unit: "Terminal de Vitória", type: TipoBarreira.TECNOLOGICA, title: "Catracas sem Acesso Adaptado", desc: "Catracas sem leitor biométrico em altura acessível.", status: DemandaStatus.NOVA },
-    { st: "DF", unit: "Sede Administrativa Brasília", type: TipoBarreira.COMUNICACIONAL, title: "Falta de Alt Text em Informativos", desc: "Comunicados internos sem descrição de imagem.", status: DemandaStatus.EM_ANDAMENTO }
+    { st: "DF", unit: "Sede Administrativa Brasília", type: TipoBarreira.COMUNICACIONAL, title: "Falta de Alt Text em Informativos", desc: "Comunicados internos por e-mail sem descrição de imagens mandatórias.", status: DemandaStatus.EM_ANDAMENTO },
+    { st: "ES", unit: "Terminal de Vitória", type: TipoBarreira.TECNOLOGICA, title: "Catracas Gerenciais Inacessíveis", desc: "Interface das catracas muito altas para usuários de cadeira de rodas.", status: DemandaStatus.NOVA },
+    { st: "GO", unit: "Base de Distribuição Goiás", type: TipoBarreira.ARQUITETONICA, title: "Plataforma sem Guarda-corpo", desc: "Falta de proteção lateral em plataforma elevada frequentada por colaboradores.", status: DemandaStatus.NOVA },
+    { st: "MA", unit: "Terminal de São Luís", type: TipoBarreira.COMUNICACIONAL, title: "Informativos sem Braille", desc: "Sinalização de emergência não possui relevo ou Braille.", status: DemandaStatus.NOVA },
+    { st: "MT", unit: "Polo de Exploração Mato Grosso", type: TipoBarreira.COMUNICACIONAL, title: "Vídeos de Segurança sem Libras", desc: "Vídeos mandatórios de segurança não possuem intérprete de Libras.", status: DemandaStatus.EM_ANALISE },
+    { st: "MS", unit: "Base Campo Grande", type: TipoBarreira.ARQUITETONICA, title: "Vagas PCD Distantes da Entrada", desc: "Estacionamento reservado fica no extremo oposto ao portão principal.", status: DemandaStatus.NOVA },
+    { st: "MG", unit: "Refinaria Gabriel Passos (REGAP)", type: TipoBarreira.TECNOLOGICA, title: "Software Incompatível com Screen Readers", desc: "Painel de controle logístico não é reconhecido pelo software JAWS.", status: DemandaStatus.EM_ANDAMENTO },
+    { st: "PA", unit: "Polo Logístico do Pará", type: TipoBarreira.ATITUDINAL, title: "Banheiro Adaptado como Depósito", desc: "O banheiro PCD é utilizado para guardar produtos de limpeza trancado.", status: DemandaStatus.NOVA },
+    { st: "PB", unit: "Terminal de João Pessoa", type: TipoBarreira.ARQUITETONICA, title: "Telefone de Emergência Alto", desc: "Dispositivos de chamada sonora estão acima da altura de alcance manual.", status: DemandaStatus.NOVA },
+    { st: "PR", unit: "Refinaria Presidente Getúlio Vargas (REPAR)", type: TipoBarreira.TECNOLOGICA, title: "Exclusão em Treinamento de Campo", desc: "Funcionário PCD relatou ter sido 'poupado' de treinamento essencial.", status: DemandaStatus.EM_ANALISE },
+    { st: "PE", unit: "Refinaria Abreu e Lima (RNEST)", type: TipoBarreira.ARQUITETONICA, title: "Banheiro Adaptado Trancado", desc: "O único banheiro adaptado do bloco B permanece trancado sem chave via RH.", status: DemandaStatus.EM_ANDAMENTO },
+    { st: "PI", unit: "Base de Teresina", type: TipoBarreira.ARQUITETONICA, title: "Falta de Piso Tátil", desc: "Áreas de grande circulação com falta de sinalização de alerta no chão.", status: DemandaStatus.NOVA },
+    { st: "RN", unit: "Polo Ativo de Mossoró", type: TipoBarreira.TECNOLOGICA, title: "Rádios sem Alerta Vibratório", desc: "Comunicação de campo falha para colaboradores com deficiência auditiva.", status: DemandaStatus.NOVA },
+    { st: "RS", unit: "Refinaria Alberto Pasqualini (REFAP)", type: TipoBarreira.TECNOLOGICA, title: "Intranet com Baixo Contraste", desc: "Dificuldade de leitura para pessoas com baixa visão em novos menus.", status: DemandaStatus.RESOLVIDA },
+    { st: "RO", unit: "Base Operacional Ji-Paraná", type: TipoBarreira.ARQUITETONICA, title: "Escadas sem Corrimão Duplo", desc: "Corrimão único em escadaria de acesso ao mezanino administrativo.", status: DemandaStatus.NOVA },
+    { st: "RR", unit: "Polo de Exploração Roraima", type: TipoBarreira.ARQUITETONICA, title: "Vagas PCD sem Faixa de Manejo", desc: "Estacionamento reservado sem o espaço lateral para descida de cadeira.", status: DemandaStatus.NOVA },
+    { st: "SC", unit: "Terminal de São Francisco do Sul", type: TipoBarreira.COMUNICACIONAL, title: "Treinamentos sem Legenda", desc: "Vídeos de integração sem legendas em português.", status: DemandaStatus.NOVA },
+    { st: "TO", unit: "Base de Palmas", type: TipoBarreira.ARQUITETONICA, title: "Mobiliário Fixo no Refeitório", desc: "Mesas fixas impossibilitam o encaixe de cadeiras de rodas.", status: DemandaStatus.NOVA },
+
+    // RIO DE JANEIRO (DETALHES)
+    ...Array.from({ length: 5 }).map((_, i) => ({
+      st: "RJ", unit: "Sede Rio de Janeiro (EDISE)", type: i % 2 === 0 ? TipoBarreira.ARQUITETONICA : TipoBarreira.COMUNICACIONAL,
+      title: i % 2 === 0 ? "Fissuras no Asfalto do Estacionamento" : `Relato de Auditoria RJ #${i + 2}`,
+      desc: "Barreira identificada durante inspeção de rotina das equipes de acessibilidade.",
+      status: DemandaStatus.EM_ANDAMENTO
+    })),
   ];
 
   return situations.map((s, index) => {
@@ -225,8 +214,8 @@ const generateMockDemandas = (): Demanda[] => {
       descricao: data.desc,
       status: data.status,
       prioridade: index % 3 === 0 ? 'ALTA' : (index % 2 === 0 ? 'MEDIA' : 'BAIXA'),
-      categoria: { id: `c${index}`, nome: data.categoryName || (data.type.charAt(0).toUpperCase() + data.type.slice(1)) },
-      tipoBarreira: { id: `b${index}`, slug: data.type, nome: BARREIRA_LABELS[data.type] },
+      categoria: { id: `c${index}`, nome: data.categoryName || BARREIRA_LABELS[data.type as TipoBarreira] },
+      tipoBarreira: { id: `b${index}`, slug: data.type, nome: BARREIRA_LABELS[data.type as TipoBarreira] },
       unidade: data.unit,
       autor: data.authorIndex !== undefined ? mockUsers[data.authorIndex] : mockUsers[index % mockUsers.length],
       iniciativaVinculada: data.integration ? {
@@ -236,7 +225,7 @@ const generateMockDemandas = (): Demanda[] => {
       } : undefined,
       respostas: data.status === DemandaStatus.RESOLVIDA ? [mockRespostas[0]] : [],
       votos: Math.floor(Math.random() * 30),
-      createdAt: data.fixedDate ? data.fixedDate.toISOString() : new Date(Date.now() - Math.random() * 10000000000).toISOString(),
+      createdAt: data.fixedDate ? data.fixedDate.toISOString() : new Date(2026, 3, 20 - (index % 15)).toISOString(),
       updatedAt: new Date().toISOString(),
       coordinates: UNIT_LOCATIONS[data.unit],
       aiAnalysis: {
@@ -247,7 +236,7 @@ const generateMockDemandas = (): Demanda[] => {
           sourceId: "rj-0",
           sourceTitle: "Desnível Crítico no Calçamento Externo",
           sourceLocation: "Rio de Janeiro (EDISE)",
-          quote: "Aqui está o coração do projeto: a Memória Operacional. Quando resolvemos um problema de calçamento no Rio, o sistema estrutura a solução e a armazena. Se o mesmo padrão aparece em Sergipe, a plataforma recupera o histórico e sugere a resposta comprovada."
+          quote: "A Memória Operacional recuperou que este padrão de falha em rampas já foi resolvido no EDISE (Rio). O sistema sugere replicar a solução técnica de nivelamento e instalação de piso intertravado."
         } : undefined,
         solucaoHistorica: data.customAI || (data.isMemoryTarget ? {
           titulo: "Instalação de Piso Intertravado Nivelado e Rampa NBR 9050",
@@ -281,3 +270,4 @@ const generateMockDemandas = (): Demanda[] => {
 
 
 export const mockDemandas = generateMockDemandas();
+
